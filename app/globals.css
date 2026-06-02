@@ -1,26 +1,243 @@
 @import "tailwindcss";
 
+@theme {
+  /* --- Brand --- */
+  --color-primary: #ffc800;
+  --color-primary-active: #ffe380;
+  --color-primary-disabled: #f9f2dd;
+  --color-on-primary: #222222;
+
+  /* --- Text --- */
+  --color-ink: #222222;
+  --color-body: #3b3b3b;
+  --color-muted: #525252;
+  --color-muted-soft: #696969;
+
+  /* --- Surfaces --- */
+  --color-canvas: #ffffff;
+  --color-surface-soft: #faf5e6;
+  --color-surface: #f7edce;
+  --color-surface-strong: #f4efe6;
+  --color-surface-cream: #fdf9f2;
+  --color-surface-biscuit: #e7decf;
+  --color-surface-footer: #222222;
+
+  /* --- Borders --- */
+  --color-hairline: #dcdcdc;
+  --color-hairline-soft: #efefef;
+
+  /* --- Accents --- */
+  --color-accent-forest: #165132;
+  --color-accent-field: #7aa83b;
+  --color-accent-grass: #e8f09c;
+  --color-accent-sky: #8cd7e6;
+  --color-accent-pond: #2f4a81;
+  --color-accent-tongue: #ff9488;
+  --color-accent-sand: #af6e17;
+  --color-accent-mud: #6a3300;
+  --color-accent-biscuit: #c4af8f;
+
+  /* --- Semantic --- */
+  --color-success: #00d9c1;
+  --color-warning: #f35e07;
+  --color-error: #ff5f58;
+
+  /* --- Fonts --- */
+  --font-display: var(--font-fredoka), system-ui, sans-serif;
+  --font-sans: var(--font-work-sans), system-ui, sans-serif;
+
+  /* --- Radius --- */
+  --radius-xs: 3px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-3xl: 32px;
+  --radius-pill: 9999px;
+
+  /* --- Breakpoints (responsive-breakpoint.md) --- */
+  --breakpoint-xs: 375px;
+  --breakpoint-sm: 600px;
+  --breakpoint-md: 960px;
+  --breakpoint-lg: 1280px;
+  --breakpoint-xl: 1440px;
+  --breakpoint-2xl: 1680px;
+  --breakpoint-3xl: 1920px;
+}
+
+/* legacy alias the lucide-react CSS variable plumbing */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --c-accent-field: #7aa83b;
+  --c-accent-pond: #2f4a81;
+  --c-accent-tongue: #ff9488;
+  --c-accent-sky: #8cd7e6;
+  --c-accent-sand: #af6e17;
+  --c-accent-mud: #6a3300;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 500;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  color: var(--color-ink);
+  line-height: 1.15;
+}
+
+h1 {
+  font-size: clamp(36px, 5vw, 56px);
+  line-height: 1.1;
+}
+h2 {
+  font-size: clamp(28px, 3.5vw, 36px);
+  line-height: 1.16;
+}
+h3 {
+  font-size: clamp(22px, 2.6vw, 28px);
+}
+h4 {
+  font-size: 22px;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+/* Article body styling for dangerouslySetInnerHTML content */
+.prose-article {
+  color: var(--color-body);
+  font-size: 18px;
+  line-height: 1.7;
+}
+.prose-article h1,
+.prose-article h2,
+.prose-article h3,
+.prose-article h4 {
+  font-family: var(--font-display);
+  margin: 2.2em 0 0.6em;
+  color: var(--color-ink);
+}
+.prose-article h2 {
+  font-size: 28px;
+}
+.prose-article h3 {
+  font-size: 22px;
+}
+.prose-article p {
+  margin: 0 0 1.1em;
+}
+.prose-article a {
+  color: var(--color-accent-pond);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.prose-article a:hover {
+  color: var(--color-ink);
+}
+.prose-article ul,
+.prose-article ol {
+  margin: 0 0 1.1em 1.4em;
+}
+.prose-article ul li {
+  list-style: disc;
+  margin-bottom: 0.4em;
+}
+.prose-article ol li {
+  list-style: decimal;
+  margin-bottom: 0.4em;
+}
+.prose-article blockquote {
+  margin: 1.6em 0;
+  padding: 1.2em 1.4em;
+  background: var(--color-surface-cream);
+  border-left: 4px solid var(--color-primary);
+  border-radius: 12px;
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--color-ink);
+}
+.prose-article img {
+  border-radius: 16px;
+  margin: 1.5em 0;
+  max-width: 100%;
+  height: auto;
+}
+.prose-article strong {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+.prose-article hr {
+  border: 0;
+  border-top: 1px solid var(--color-hairline);
+  margin: 2.2em 0;
+}
+.prose-article code {
+  background: var(--color-surface-cream);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.95em;
+}
+.prose-article table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.6em 0;
+  font-size: 16px;
+  background: var(--color-canvas);
+  border: 1px solid var(--color-hairline);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.prose-article thead {
+  background: var(--color-surface);
+}
+.prose-article th,
+.prose-article td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-hairline);
+  vertical-align: top;
+}
+.prose-article tbody tr:last-child th,
+.prose-article tbody tr:last-child td {
+  border-bottom: 0;
+}
+.prose-article th {
+  font-weight: 600;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+.prose-article tbody tr:nth-child(even) {
+  background: var(--color-surface-cream);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
