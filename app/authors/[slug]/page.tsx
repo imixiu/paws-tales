@@ -14,10 +14,9 @@ import EmptyState from "@/components/EmptyState";
 export const revalidate = 3600;
 
 export async function generateStaticParams() {
-  const authors = await getAllAuthors();
-  return authors
-    .filter((a) => a.slug)
-    .map((a) => ({ slug: a.slug as string }));
+  // Return empty array to avoid DB connection during build
+  // Pages will be generated on-demand at runtime
+  return [];
 }
 
 export async function generateMetadata({

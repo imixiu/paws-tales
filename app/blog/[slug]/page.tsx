@@ -14,10 +14,9 @@ import ArticleCard from "@/components/ArticleCard";
 export const revalidate = 3600;
 
 export async function generateStaticParams() {
-  const all = await getAllArticles();
-  return all
-    .filter((a) => a.short_title)
-    .map((a) => ({ slug: a.short_title as string }));
+  // Return empty array to avoid DB connection during build
+  // Pages will be generated on-demand at runtime
+  return [];
 }
 
 export async function generateMetadata({
