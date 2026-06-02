@@ -22,7 +22,7 @@ const workSans = Work_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   verification: {
-    google: ["b3c-0GxGgAQgRSTiH3_-X4LR4d8dMJeRc-XWj5deCS4", "yI-zvkQJJyNXaxQuuHgEi3EtpCASeP0UA-wy9SmG1_4"],
+    google: ["b3c-0GxGgAQgRSTiH3_-X4LR4d8dMJeRc-XWj5deCS4", "yI-zvkQJJyNXaxQuuHgEi3EtpCASeP0UA-wy9SmG1_4", "9AQKfZBrs6H-eY48LF6Qok51JIvOZjEY7zPCHCXVEU8"],
   },
   title: {
     default: `${SITE_NAME} — A friendly journal for dog people`,
