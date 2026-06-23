@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogIndex() {
-  const articles = await getAllArticles();
+  const articles = (await getAllArticles()).slice(0, 200);
 
   return (
     <>

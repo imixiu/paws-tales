@@ -2,11 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import {
-  getAllArticles,
-  getArticleBySlug,
-  getRelatedArticles,
-} from "@/lib/db";
+import { getArticleBySlug, getRelatedArticles } from "@/lib/db";
 import { categoryFor, SITE_NAME, SITE_URL } from "@/lib/site";
 import { coverFor } from "@/lib/images";
 import ArticleCard from "@/components/ArticleCard";
@@ -14,24 +10,22 @@ import ArticleCard from "@/components/ArticleCard";
 export const revalidate = 3600;
 
 export async function generateStaticParams() {
-  // Return empty array to avoid DB connection during build
-  // Pages will be generated on-demand at runtime
   return [];
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ type: string; slug: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
+  const { type, slug } = await params;
   const post = await getArticleBySlug(slug);
   if (!post) return { title: "Not found" };
   const cover = post.img || coverFor(post.type, post.short_title, 1200);
   return {
     title: post.title ?? "Article",
     description: post.description ?? undefined,
-    alternates: { canonical: `/blog/${slug}` },
+    alternates: { canonical: `/${type}/${slug}` },
     openGraph: {
       title: post.title ?? "Article",
       description: post.description ?? undefined,
@@ -53,12 +47,12 @@ function formatDate(s: string | null | undefined): string {
   }
 }
 
-export default async function BlogDetail({
+export default async function ArticleDetail({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ type: string; slug: string }>;
 }) {
-  const { slug } = await params;
+  const { type, slug } = await params;
   const post = await getArticleBySlug(slug);
   if (!post) notFound();
 
@@ -85,33 +79,18 @@ export default async function BlogDetail({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
 
-      <section className="relative" style={{ minHeight: 420, maxHeight: 560 }}>
-        <div className="absolute inset-0">
-          <Image
-            src={cover}
-            alt={post.title ?? "Article cover"}
-            fill
-            priority
-            sizes="100vw"
-            style={{ objectFit: "cover" }}
-          />
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.6) 100%)",
-            }}
-          />
-        </div>
-
+      <section style={{ background: "var(--color-primary)" }}>
         <div
-          className="relative mx-auto px-4 sm:px-6 lg:px-10 h-full flex flex-col justify-end pb-10 pt-20 sm:pt-24"
+          className="mx-auto px-4 sm:px-6 lg:px-10 pt-10 pb-6"
           style={{ maxWidth: 1200 }}
         >
           <nav
             aria-label="Breadcrumb"
-            className="mb-auto"
-            style={{ fontSize: 13, color: "rgba(255,255,255,0.85)", fontWeight: 500 }}
+            style={{
+              fontSize: 13,
+              color: "var(--color-on-primary)",
+              fontWeight: 500,
+            }}
           >
             <Link href="/" style={{ textDecoration: "underline" }}>
               Home
@@ -132,13 +111,20 @@ export default async function BlogDetail({
               </>
             ) : null}
           </nav>
+        </div>
+      </section>
 
+      <section style={{ background: "var(--color-primary)" }}>
+        <div
+          className="mx-auto px-4 sm:px-6 lg:px-10 pb-16 lg:pb-24 pt-2"
+          style={{ maxWidth: 1200 }}
+        >
           <div style={{ maxWidth: 860 }}>
             {cat ? (
               <span
                 style={{
                   display: "inline-block",
-                  background: "rgba(255,255,255,0.9)",
+                  background: "#fff",
                   color: "var(--color-ink)",
                   padding: "4px 14px",
                   borderRadius: 9999,
@@ -155,9 +141,8 @@ export default async function BlogDetail({
             <h1
               style={{
                 fontFamily: "var(--font-display)",
-                color: "#fff",
-                marginBottom: 12,
-                textShadow: "0 2px 8px rgba(0,0,0,0.3)",
+                color: "var(--color-on-primary)",
+                marginBottom: 16,
               }}
             >
               {post.title}
@@ -165,12 +150,12 @@ export default async function BlogDetail({
             {post.description ? (
               <p
                 style={{
-                  fontSize: 18,
-                  color: "rgba(255,255,255,0.92)",
+                  fontSize: 20,
+                  color: "var(--color-on-primary)",
                   fontWeight: 500,
                   lineHeight: 1.5,
                   maxWidth: 720,
-                  marginBottom: 12,
+                  marginBottom: 16,
                 }}
               >
                 {post.description}
@@ -179,7 +164,7 @@ export default async function BlogDetail({
             <div
               style={{
                 fontSize: 14,
-                color: "rgba(255,255,255,0.8)",
+                color: "var(--color-on-primary)",
                 fontWeight: 500,
               }}
             >
@@ -192,6 +177,33 @@ export default async function BlogDetail({
       </section>
 
       <section style={{ background: "var(--color-surface-soft)" }}>
+        <div
+          className="mx-auto px-4 sm:px-6 lg:px-10"
+          style={{
+            maxWidth: 1200,
+            position: "relative",
+          }}
+        >
+          <div
+            className="relative"
+            style={{
+              borderRadius: 24,
+              overflow: "hidden",
+              aspectRatio: "16 / 9",
+              marginTop: -64,
+              boxShadow: "0 12px 36px rgba(0,0,0,0.18)",
+            }}
+          >
+            <Image
+              src={cover}
+              alt={post.title ?? "Article cover"}
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 1200px"
+              style={{ objectFit: "cover" }}
+            />
+          </div>
+        </div>
 
         <div
           className="mx-auto px-4 sm:px-6 md:px-10 py-16 lg:py-20 max-w-full md:max-w-[720px] lg:max-w-[760px] xl:max-w-[820px] 2xl:max-w-[880px]"

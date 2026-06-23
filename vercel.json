@@ -3,5 +3,18 @@
   "buildCommand": "CI=true pnpm run build",
   "devCommand": "pnpm run dev",
   "installCommand": "CI=true pnpm install",
-  "framework": "nextjs"
+  "framework": "nextjs",
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.paws-tales.com"
+        }
+      ],
+      "destination": "https://paws-tales.com/$1",
+      "permanent": true
+    }
+  ]
 }
