@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Fredoka, Work_Sans } from "next/font/google";
+import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -23,6 +25,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   verification: {
     google: "xgY5YxjGNW52CILmyT_O5h1HLYwYrcnLTAZsVo4n-UU",
+    other: { "msvalidate.01": "AB6E5DE3821D6902F37F222AEDC91131" },
   },
   title: {
     default: `${SITE_NAME} — A friendly journal for dog people`,
@@ -47,6 +50,18 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${fredoka.variable} ${workSans.variable}`}>
       <body>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-95PY8PSZ0Y"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-95PY8PSZ0Y');
+          `}
+        </Script>
         <div
           style={{
             minHeight: "100dvh",
@@ -58,6 +73,7 @@ export default function RootLayout({
           <main style={{ flex: 1 }}>{children}</main>
           <Footer />
         </div>
+        <Analytics />
       </body>
     </html>
   );
