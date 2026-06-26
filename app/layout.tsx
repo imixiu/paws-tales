@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   verification: {
     google: "xgY5YxjGNW52CILmyT_O5h1HLYwYrcnLTAZsVo4n-UU",
-    other: { "msvalidate.01": "AB6E5DE3821D6902F37F222AEDC91131" },
+    other: { "msvalidate.01": "46A263D9F5B5B42F858E448A6A9C5D16" },
   },
   title: {
     default: `${SITE_NAME} — A friendly journal for dog people`,
@@ -36,8 +36,9 @@ export const metadata: Metadata = {
     type: "website",
     siteName: SITE_NAME,
     locale: "en_GB",
+    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
   },
-  twitter: { card: "summary_large_image" },
+  twitter: { card: "summary_large_image", images: ["/og-image.png"] },
   alternates: { canonical: "/" },
   robots: { index: true, follow: true },
 };
@@ -51,7 +52,7 @@ export default function RootLayout({
     <html lang="en" className={`${fredoka.variable} ${workSans.variable}`}>
       <body>
         <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-2CMPWQQBGB"
+          src="https://www.googletagmanager.com/gtag/js?id=G-95PY8PSZ0Y"
           strategy="afterInteractive"
         />
         <Script id="google-analytics" strategy="afterInteractive">
@@ -59,7 +60,7 @@ export default function RootLayout({
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-2CMPWQQBGB');
+            gtag('config', 'G-95PY8PSZ0Y');
           `}
         </Script>
         <div
