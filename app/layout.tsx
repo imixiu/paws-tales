@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Fredoka, Work_Sans } from "next/font/google";
 import Script from "next/script";
-import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -74,7 +73,6 @@ export default function RootLayout({
           <main style={{ flex: 1 }}>{children}</main>
           <Footer />
         </div>
-        <Analytics />
       </body>
     </html>
   );
