@@ -1,4 +1,5 @@
 import * as mysql from "mysql2/promise";
+import { tairGet, tairSet } from "./tair";
 
 export interface Article {
   id: number;
@@ -60,30 +61,36 @@ async function q(text: string, params: unknown[] = []): Promise<any[]> {
 export const SITE = "paws-tales";
 
 export async function getArticleBySlug(slug: string): Promise<Article | null> {
+  const key = `paws-tales:article:${slug}`;
+  const cached = await tairGet(key);
+  if (cached) return cached as Article;
+
   const rows = await q(
-    "SELECT * FROM articles WHERE site = ? AND short_title = ? AND is_online = 'Y' LIMIT 1",
+    "SELECT * FROM articles WHERE site = ? AND short_title = ? AND is_online = '1' LIMIT 1",
     [SITE, slug]
   );
-  return (rows[0] as Article) ?? null;
+  const article = (rows[0] as Article) ?? null;
+  if (article) tairSet(key, article);
+  return article;
 }
 
 export async function getAllArticles(): Promise<Article[]> {
   return q(
-    "SELECT id, site, type, short_title, language, published_time, modified_time, author, img, title, description, url FROM articles WHERE site = ? AND is_online = 'Y' ORDER BY published_time DESC, id DESC",
+    "SELECT id, site, type, short_title, language, published_time, modified_time, author, img, title, description, url FROM articles WHERE site = ? AND is_online = '1' ORDER BY published_time DESC, id DESC",
     [SITE]
   ) as Promise<Article[]>;
 }
 
 export async function getRelatedArticles(currentId: number, type: string): Promise<Article[]> {
   return q(
-    "SELECT id, site, type, short_title, title, img, url FROM articles WHERE site = ? AND type = ? AND id != ? AND is_online = 'Y' ORDER BY RAND() LIMIT 10",
+    "SELECT id, site, type, short_title, title, img, url FROM articles WHERE site = ? AND type = ? AND id != ? AND is_online = '1' ORDER BY RAND() LIMIT 10",
     [SITE, type, currentId]
   ) as Promise<Article[]>;
 }
 
 export async function getArticlesByType(type: string): Promise<Article[]> {
   return q(
-    "SELECT id, site, type, short_title, language, published_time, modified_time, author, img, title, description, url FROM articles WHERE site = ? AND type = ? AND is_online = 'Y' ORDER BY published_time DESC, id DESC",
+    "SELECT id, site, type, short_title, language, published_time, modified_time, author, img, title, description, url FROM articles WHERE site = ? AND type = ? AND is_online = '1' ORDER BY published_time DESC, id DESC",
     [SITE, type]
   ) as Promise<Article[]>;
 }
@@ -98,7 +105,7 @@ export async function getDistinctTypes(): Promise<string[]> {
 
 export async function getArticlesByAuthor(authorSlug: string): Promise<Article[]> {
   return q(
-    "SELECT id, site, type, short_title, language, published_time, modified_time, author, img, title, description, url FROM articles WHERE site = ? AND author = ? AND is_online = 'Y' ORDER BY published_time DESC, id DESC",
+    "SELECT id, site, type, short_title, language, published_time, modified_time, author, img, title, description, url FROM articles WHERE site = ? AND author = ? AND is_online = '1' ORDER BY published_time DESC, id DESC",
     [SITE, authorSlug]
   ) as Promise<Article[]>;
 }
@@ -157,7 +164,7 @@ export async function upsertArticle(input: {
     short_title, title, body,
     description = null, type = null, language = null,
     author = null, img = null, url = null,
-    published_time = null, tag = null, is_online = "Y",
+    published_time = null, tag = null, is_online = "1",
   } = input;
 
   const existing = await q("SELECT id FROM articles WHERE site = ? AND short_title = ? LIMIT 1", [SITE, short_title]);
