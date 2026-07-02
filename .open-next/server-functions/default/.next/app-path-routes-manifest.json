@@ -10,9 +10,10 @@
   "/categories/[slug]/page": "/categories/[slug]",
   "/categories/page": "/categories",
   "/contact/page": "/contact",
-  "/icon/route": "/icon",
+  "/icon.png/route": "/icon.png",
   "/page": "/",
   "/privacy-policy/page": "/privacy-policy",
   "/robots.txt/route": "/robots.txt",
+  "/sitemap.xml/route": "/sitemap.xml",
   "/terms-of-service/page": "/terms-of-service"
 }

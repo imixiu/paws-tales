@@ -21,6 +21,7 @@ const workSans = Work_Sans({
 });
 
 export const metadata: Metadata = {
+  icons: { icon: "/icon.png" },
   metadataBase: new URL(SITE_URL),
   verification: {
     google: "xgY5YxjGNW52CILmyT_O5h1HLYwYrcnLTAZsVo4n-UU",

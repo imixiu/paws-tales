@@ -34,9 +34,6 @@ export default {
                     if (hit) {
                         const r = new Response(hit.body, hit);
                         r.headers.set("x-cache", "HIT");
-                        if (new URL(url).pathname.endsWith(".md")) {
-                            r.headers.set("content-type", "text/markdown; charset=utf-8");
-                        }
                         return r;
                     }
                 } catch(e) {}
@@ -63,6 +60,11 @@ export default {
                     return resp;
                 }
             }
+            // Bot block before cache
+            const botUa = (request.headers.get("user-agent") || "").toLowerCase();
+            if (botUa.includes("semrush") || botUa.includes("ahrefsbot") || botUa.includes("ahrefs")) {
+                return new Response("Forbidden", { status: 403 });
+            }
             if (request.method === "GET" && shouldCache(request.url)) {
                 const hit = await cacheGet(request.url);
                 if (hit) return hit;
@@ -81,9 +83,6 @@ export default {
             // - `Request`s are handled by the Next server
             const reqOrResp = await middlewareHandler(request, env, ctx);
             if (reqOrResp instanceof Response) {
-                if (url.pathname.endsWith(".md")) {
-                    reqOrResp.headers.set("content-type", "text/markdown; charset=utf-8");
-                }
                 if (request.method === "GET" && shouldCache(request.url)) {
                     return await cachePut(request.url, reqOrResp);
                 }
@@ -92,9 +91,6 @@ export default {
             // @ts-expect-error: resolved by wrangler build
             const { handler } = await import("./server-functions/default/handler.mjs");
             const resp = await handler(reqOrResp, env, ctx, request.signal);
-            if (url.pathname.endsWith(".md")) {
-                resp.headers.set("content-type", "text/markdown; charset=utf-8");
-            }
             if (request.method === "GET" && shouldCache(request.url)) {
                 return await cachePut(request.url, resp);
             }
