@@ -1,5 +1,5 @@
 import * as mysql from "mysql2/promise";
-import { tairGet, tairSet } from "./tair";
+import { tairGet } from "./tair";
 
 export interface Article {
   id: number;
@@ -60,37 +60,70 @@ async function q(text: string, params: unknown[] = []): Promise<any[]> {
 
 export const SITE = "paws-tales";
 
-export async function getArticleBySlug(slug: string): Promise<Article | null> {
-  const key = `paws-tales:article:${slug}`;
+export async function getArticleBySlug(type: string, slug: string): Promise<Article | null> {
+  const key = `paws-tales:article:${type}:${slug}`;
   const cached = await tairGet(key);
   if (cached) return cached as Article;
 
   const rows = await q(
-    "SELECT * FROM articles WHERE site = ? AND short_title = ? AND is_online = '1' LIMIT 1",
+    "SELECT * FROM articles WHERE site = ? AND short_title = ? AND is_online IN ('1','Y') LIMIT 1",
     [SITE, slug]
   );
   const article = (rows[0] as Article) ?? null;
-  if (article) tairSet(key, article);
+
   return article;
 }
 
 export async function getAllArticles(): Promise<Article[]> {
   return q(
-    "SELECT id, site, type, short_title, language, published_time, modified_time, author, img, title, description, url FROM articles WHERE site = ? AND is_online = '1' ORDER BY published_time DESC, id DESC",
+    "SELECT id, site, type, short_title, language, published_time, modified_time, author, img, title, description, url FROM articles WHERE site = ? AND is_online IN ('1','Y') ORDER BY published_time DESC, id DESC",
     [SITE]
   ) as Promise<Article[]>;
 }
 
+export async function getArticleUrlsForSitemap(): Promise<{ type: string; short_title: string; modified_time: string }[]> {
+  return q(
+    "SELECT type, short_title, modified_time FROM articles WHERE site = ? AND is_online IN ('1','Y') ORDER BY id",
+    [SITE]
+  ) as Promise<{ type: string; short_title: string; modified_time: string }[]>;
+}
+
+export async function getArticlesPaginated(page: number, pageSize: number): Promise<{ articles: Article[]; total: number }> {
+  const offset = (page - 1) * pageSize;
+  const [articles, countRows] = await Promise.all([
+    q(
+      "SELECT id, site, type, short_title, language, published_time, modified_time, author, img, title, description, url FROM articles WHERE site = ? AND is_online IN ('1','Y') ORDER BY published_time DESC, id DESC LIMIT ? OFFSET ?",
+      [SITE, pageSize, offset]
+    ),
+    q("SELECT COUNT(*) as total FROM articles WHERE site = ? AND is_online IN ('1','Y')", [SITE]),
+  ]);
+  const total = (countRows[0] as any)?.total ?? 0;
+  return { articles: articles as Article[], total };
+}
+
+export async function getArticlesByTypePaginated(type: string, page: number, pageSize: number): Promise<{ articles: Article[]; total: number }> {
+  const offset = (page - 1) * pageSize;
+  const [articles, countRows] = await Promise.all([
+    q(
+      "SELECT id, site, type, short_title, language, published_time, modified_time, author, img, title, description, url FROM articles WHERE site = ? AND type = ? AND is_online IN ('1','Y') ORDER BY published_time DESC, id DESC LIMIT ? OFFSET ?",
+      [SITE, type, pageSize, offset]
+    ),
+    q("SELECT COUNT(*) as total FROM articles WHERE site = ? AND type = ? AND is_online IN ('1','Y')", [SITE, type]),
+  ]);
+  const total = (countRows[0] as any)?.total ?? 0;
+  return { articles: articles as Article[], total };
+}
+
 export async function getRelatedArticles(currentId: number, type: string): Promise<Article[]> {
   return q(
-    "SELECT id, site, type, short_title, title, img, url FROM articles WHERE site = ? AND type = ? AND id != ? AND is_online = '1' ORDER BY RAND() LIMIT 10",
+    "SELECT id, site, type, short_title, title, img, url FROM articles WHERE site = ? AND type = ? AND id != ? AND is_online IN ('1','Y') ORDER BY RAND() LIMIT 10",
     [SITE, type, currentId]
   ) as Promise<Article[]>;
 }
 
 export async function getArticlesByType(type: string): Promise<Article[]> {
   return q(
-    "SELECT id, site, type, short_title, language, published_time, modified_time, author, img, title, description, url FROM articles WHERE site = ? AND type = ? AND is_online = '1' ORDER BY published_time DESC, id DESC",
+    "SELECT id, site, type, short_title, language, published_time, modified_time, author, img, title, description, url FROM articles WHERE site = ? AND type = ? AND is_online IN ('1','Y') ORDER BY published_time DESC, id DESC",
     [SITE, type]
   ) as Promise<Article[]>;
 }
@@ -105,7 +138,7 @@ export async function getDistinctTypes(): Promise<string[]> {
 
 export async function getArticlesByAuthor(authorSlug: string): Promise<Article[]> {
   return q(
-    "SELECT id, site, type, short_title, language, published_time, modified_time, author, img, title, description, url FROM articles WHERE site = ? AND author = ? AND is_online = '1' ORDER BY published_time DESC, id DESC",
+    "SELECT id, site, type, short_title, language, published_time, modified_time, author, img, title, description, url FROM articles WHERE site = ? AND author = ? AND is_online IN ('1','Y') ORDER BY published_time DESC, id DESC",
     [SITE, authorSlug]
   ) as Promise<Article[]>;
 }

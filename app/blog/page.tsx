@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getAllArticles } from "@/lib/db";
+import { getArticlesPaginated } from "@/lib/db";
 import ArticleCard from "@/components/ArticleCard";
 import EmptyState from "@/components/EmptyState";
 import { CATEGORIES } from "@/lib/site";
 
 export const revalidate = 3600;
+const PAGE_SIZE = 48;
 
 export const metadata: Metadata = {
   title: "All articles",
@@ -14,8 +15,11 @@ export const metadata: Metadata = {
   alternates: { canonical: "/blog" },
 };
 
-export default async function BlogIndex() {
-  const articles = (await getAllArticles()).slice(0, 200);
+export default async function BlogIndex({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
+  const sp = await searchParams;
+  const page = Math.max(1, parseInt(sp.page || "1", 10) || 1);
+  const { articles, total } = await getArticlesPaginated(page, PAGE_SIZE);
+  const totalPages = Math.ceil(total / PAGE_SIZE);
 
   return (
     <>
@@ -47,7 +51,7 @@ export default async function BlogIndex() {
                 lineHeight: 1.6,
               }}
             >
-              {articles.length} articles from vets, trainers, and behaviour
+              {total} articles from vets, trainers, and behaviour
               specialists who love their dogs the way you love yours.
             </p>
           </div>
@@ -65,7 +69,7 @@ export default async function BlogIndex() {
             {Object.values(CATEGORIES).map((c) => (
               <Link
                 key={c.slug}
-                href={`/categories/${c.slug}`}
+                href={`/${c.slug}`}
                 style={pillStyle(false)}
               >
                 {c.label}
@@ -86,11 +90,40 @@ export default async function BlogIndex() {
               message="The journal is still warming up — check back soon for our first stories."
             />
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-              {articles.map((a) => (
-                <ArticleCard key={a.id} article={a} />
-              ))}
-            </div>
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                {articles.map((a) => (
+                  <ArticleCard key={a.id} article={a} />
+                ))}
+              </div>
+              {totalPages > 1 && (
+                <nav className="flex items-center justify-center gap-2 mt-12 flex-wrap">
+                  {page > 1 && (
+                    <Link href={page === 2 ? "/blog" : `/blog?page=${page - 1}`} className="px-4 py-2 rounded-lg border text-sm font-medium hover:opacity-80 transition-colors" style={{ borderColor: "var(--color-hairline-soft)" }}>
+                      ← Prev
+                    </Link>
+                  )}
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => {
+                    if (p === 1 || p === totalPages || Math.abs(p - page) <= 2) {
+                      return p === page ? (
+                        <span key={p} className="px-3 py-2 rounded-lg text-sm font-medium text-white" style={{ background: "var(--color-primary)" }}>{p}</span>
+                      ) : (
+                        <Link key={p} href={p === 1 ? "/blog" : `/blog?page=${p}`} className="px-3 py-2 rounded-lg border text-sm hover:opacity-80 transition-colors" style={{ borderColor: "var(--color-hairline-soft)" }}>{p}</Link>
+                      );
+                    }
+                    if (p === page - 3 || p === page + 3) {
+                      return <span key={p} className="px-2" style={{ color: "var(--color-muted)" }}>…</span>;
+                    }
+                    return null;
+                  })}
+                  {page < totalPages && (
+                    <Link href={`/blog?page=${page + 1}`} className="px-4 py-2 rounded-lg border text-sm font-medium hover:opacity-80 transition-colors" style={{ borderColor: "var(--color-hairline-soft)" }}>
+                      Next →
+                    </Link>
+                  )}
+                </nav>
+              )}
+            </>
           )}
         </div>
       </section>

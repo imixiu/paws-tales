@@ -19,7 +19,7 @@ export async function generateMetadata({
   params: Promise<{ type: string; slug: string }>;
 }): Promise<Metadata> {
   const { type, slug } = await params;
-  const post = await getArticleBySlug(slug);
+  const post = await getArticleBySlug("", slug);
   if (!post) return { title: "Not found" };
   const cover = post.img || coverFor(post.type, post.short_title, 1200);
   return {
@@ -53,7 +53,7 @@ export default async function ArticleDetail({
   params: Promise<{ type: string; slug: string }>;
 }) {
   const { type, slug } = await params;
-  const post = await getArticleBySlug(slug);
+  const post = await getArticleBySlug("", slug);
   if (!post) notFound();
 
   const cat = categoryFor(post.type);
@@ -170,7 +170,10 @@ export default async function ArticleDetail({
             >
               {post.author ? <>By {post.author}</> : null}
               {post.author && post.published_time ? <> · </> : null}
-              {post.published_time ? formatDate(post.published_time) : null}
+              {post.published_time ? <>Published {formatDate(post.published_time)}</> : null}
+              {post.modified_time && post.modified_time !== post.published_time ? (
+                <> · Updated {formatDate(post.modified_time)}</>
+              ) : null}
             </div>
           </div>
         </div>

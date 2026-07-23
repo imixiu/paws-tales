@@ -17,7 +17,7 @@ export default function ArticleCard({
 
   return (
     <Link
-      href={`/blog/${slug}`}
+      href={`/${article.type || "blog"}/${slug}`}
       style={{
         background: "#fff",
         borderRadius: 16,

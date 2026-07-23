@@ -26,12 +26,13 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const author = await getAuthorBySlug(slug);
-  if (!author) return { title: "Author not found" };
+  if (!author) return { title: "Author not found", robots: { index: false, follow: true } };
   return {
     title: author.name ?? "Author",
     description:
       author.description ?? `Articles by ${author.name} on pawspost.`,
     alternates: { canonical: `/authors/${slug}` },
+    robots: { index: false, follow: true },
   };
 }
 

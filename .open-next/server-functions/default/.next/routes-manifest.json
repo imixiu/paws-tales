@@ -47,6 +47,14 @@
       "namedRegex": "^/categories/(?<nxtPslug>[^/]+?)(?:/)?$"
     },
     {
+      "page": "/[type]",
+      "regex": "^/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPtype": "nxtPtype"
+      },
+      "namedRegex": "^/(?<nxtPtype>[^/]+?)(?:/)?$"
+    },
+    {
       "page": "/[type]/[slug]",
       "regex": "^/([^/]+?)/([^/]+?)(?:/)?$",
       "routeKeys": {

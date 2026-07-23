@@ -3,13 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
-  getAllArticles,
   getArticleBySlug,
   getRelatedArticles,
 } from "@/lib/db";
 import { categoryFor, SITE_NAME, SITE_URL } from "@/lib/site";
 import { coverFor } from "@/lib/images";
 import ArticleCard from "@/components/ArticleCard";
+import { redirect } from "next/navigation";
 
 export const revalidate = 3600;
 
@@ -25,7 +25,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = await getArticleBySlug(slug);
+  const post = await getArticleBySlug("", slug);
   if (!post) return { title: "Not found" };
   const cover = post.img || coverFor(post.type, post.short_title, 1200);
   return {
@@ -59,8 +59,12 @@ export default async function BlogDetail({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = await getArticleBySlug(slug);
+  const post = await getArticleBySlug("", slug);
   if (!post) notFound();
+
+  // 307 redirect /blog/{slug} → /{type}/{slug} for canonical URL consistency
+  const targetPath = `/${post.type || "blog"}/${slug}`;
+  if (targetPath !== `/blog/${slug}`) redirect(targetPath);
 
   const cat = categoryFor(post.type);
   const cover = post.img || coverFor(post.type, post.short_title, 1600);
@@ -185,7 +189,10 @@ export default async function BlogDetail({
             >
               {post.author ? <>By {post.author}</> : null}
               {post.author && post.published_time ? <> · </> : null}
-              {post.published_time ? formatDate(post.published_time) : null}
+              {post.published_time ? <>Published {formatDate(post.published_time)}</> : null}
+              {post.modified_time && post.modified_time !== post.published_time ? (
+                <> · Updated {formatDate(post.modified_time)}</>
+              ) : null}
             </div>
           </div>
         </div>

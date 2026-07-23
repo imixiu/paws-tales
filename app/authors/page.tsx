@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   description:
     "Meet the vets, trainers, and behaviour specialists writing for pawspost.",
   alternates: { canonical: "/authors" },
+  robots: { index: false, follow: true },
 };
 
 export default async function AuthorsIndex() {

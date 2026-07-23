@@ -2,7 +2,7 @@ export const SITE_NAME = "Paws&Tales";
 export const SITE_TAGLINE = "Stories, science, and warmth — for everyone who shares a life with dogs.";
 export const SITE_URL = "https://paws-tales.com";
 export const SITE_DESCRIPTION =
-  "pawspost is a friendly dog-care journal: training tips, health guidance, behaviour science, and real-life stories from people who love their dogs.";
+  "Paws&Tales is a friendly dog-care journal: training tips, health guidance, behaviour science, and real-life stories from people who love their dogs.";
 
 export interface CategoryMeta {
   slug: string;

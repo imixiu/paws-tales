@@ -1,5 +1,6 @@
 {
   "/[type]/[slug]/page": "app/[type]/[slug]/page.js",
+  "/[type]/page": "app/[type]/page.js",
   "/_global-error/page": "app/_global-error/page.js",
   "/_not-found/page": "app/_not-found/page.js",
   "/about/page": "app/about/page.js",
