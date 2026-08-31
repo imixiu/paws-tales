@@ -28,7 +28,7 @@ export const metadata: Metadata = {
       "xgY5YxjGNW52CILmyT_O5h1HLYwYrcnLTAZsVo4n-UU",
       "2s2Xz0FNIekt_1B23mMsW73OWmO-PAVNnGTjl443hGY",
     ],
-    other: { "msvalidate.01": "46A263D9F5B5B42F858E448A6A9C5D16" },
+    other: { "msvalidate.01": "98733F4CB57BF5ABEEB371E57CA78178" },
   },
   title: {
     default: `${SITE_NAME} — A friendly journal for dog people`,

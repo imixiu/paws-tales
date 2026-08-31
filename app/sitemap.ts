@@ -4,7 +4,7 @@ import { getArticleUrlsForSitemap } from "@/lib/db";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [articles] = await Promise.all([
-    getArticleUrlsForSitemap()(),
+    getArticleUrlsForSitemap(),
   ]);
 
   const staticPages: MetadataRoute.Sitemap = [

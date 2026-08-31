@@ -4555,7 +4555,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__042f560._.js": {
-      "bytes": 5237,
+      "bytes": 5293,
       "imports": [
         {
           "path": ".open-next/server-functions/default/node_modules/next/dist/shared/lib/no-fallback-error.external.js",
@@ -4582,7 +4582,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__04.5u~~._.js": {
-      "bytes": 4646,
+      "bytes": 4674,
       "imports": [
         {
           "path": ".open-next/server-functions/default/node_modules/next/dist/shared/lib/no-fallback-error.external.js",
@@ -5264,7 +5264,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/chunks/node_modules_0u~fj19._.js": {
-      "bytes": 792878,
+      "bytes": 792563,
       "imports": [],
       "format": "cjs"
     },
@@ -9387,7 +9387,7 @@
           "bytesInOutput": 23506
         },
         ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__042f560._.js": {
-          "bytesInOutput": 5372
+          "bytesInOutput": 5428
         },
         ".open-next/server-functions/default/.next/server/chunks/ssr/_next-internal_server_app_authors_[slug]_page_actions_0eud3f~.js": {
           "bytesInOutput": 276
@@ -9396,7 +9396,7 @@
           "bytesInOutput": 23581
         },
         ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__04.5u~~._.js": {
-          "bytesInOutput": 4767
+          "bytesInOutput": 4795
         },
         ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0v8roxs._.js": {
           "bytesInOutput": 13623
@@ -9498,7 +9498,7 @@
           "bytesInOutput": 270
         },
         ".open-next/server-functions/default/.next/server/chunks/node_modules_0u~fj19._.js": {
-          "bytesInOutput": 1018677
+          "bytesInOutput": 1018348
         },
         ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__0oltlrg._.js": {
           "bytesInOutput": 3794
@@ -9720,7 +9720,7 @@
           "bytesInOutput": 64798
         }
       },
-      "bytes": 6704343
+      "bytes": 6704098
     }
   }
 }
