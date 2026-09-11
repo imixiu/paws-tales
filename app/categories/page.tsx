@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { CATEGORIES } from "@/lib/site";
-import { getAllArticles } from "@/lib/db";
+import { getTypeCounts } from "@/lib/db";
 import { coverFor } from "@/lib/images";
 
 export const revalidate = 3600;
@@ -15,11 +15,10 @@ export const metadata: Metadata = {
 };
 
 export default async function CategoriesIndex() {
-  const all = await getAllArticles();
+  const typeRows = await getTypeCounts();
   const counts: Record<string, number> = {};
-  for (const a of all) {
-    if (!a.type) continue;
-    counts[a.type] = (counts[a.type] ?? 0) + 1;
+  for (const r of typeRows) {
+    counts[r.type] = r.count;
   }
 
   return (

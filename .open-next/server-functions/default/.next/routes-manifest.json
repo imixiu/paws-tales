@@ -47,6 +47,14 @@
       "namedRegex": "^/categories/(?<nxtPslug>[^/]+?)(?:/)?$"
     },
     {
+      "page": "/sitemap/[__metadata_id__]",
+      "regex": "^/sitemap/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtP__metadata_id__": "nxtP__metadata_id__"
+      },
+      "namedRegex": "^/sitemap/(?<nxtP__metadata_id__>[^/]+?)(?:/)?$"
+    },
+    {
       "page": "/[type]",
       "regex": "^/([^/]+?)(?:/)?$",
       "routeKeys": {
@@ -130,12 +138,6 @@
       "regex": "^/robots\\.txt(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/robots\\.txt(?:/)?$"
-    },
-    {
-      "page": "/sitemap.xml",
-      "regex": "^/sitemap\\.xml(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/sitemap\\.xml(?:/)?$"
     },
     {
       "page": "/terms-of-service",

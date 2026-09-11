@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { getAllAuthors, getAllArticles } from "@/lib/db";
+import { getAllAuthors, getAuthorCounts } from "@/lib/db";
 import EmptyState from "@/components/EmptyState";
 import { portraitFor } from "@/lib/images";
 
@@ -16,15 +16,14 @@ export const metadata: Metadata = {
 };
 
 export default async function AuthorsIndex() {
-  const [authors, articles] = await Promise.all([
+  const [authors, authorRows] = await Promise.all([
     getAllAuthors(),
-    getAllArticles(),
+    getAuthorCounts(),
   ]);
 
   const counts: Record<string, number> = {};
-  for (const a of articles) {
-    if (!a.author) continue;
-    counts[a.author] = (counts[a.author] ?? 0) + 1;
+  for (const r of authorRows) {
+    counts[r.author] = r.count;
   }
 
   return (

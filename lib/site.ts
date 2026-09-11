@@ -48,6 +48,18 @@ export const CATEGORIES: Record<string, CategoryMeta> = {
     blurb: "The first weeks and months — the foundations that shape a happy life.",
     accent: "var(--c-accent-mud)",
   },
+  "canine-science": {
+    slug: "canine-science",
+    label: "Canine Science",
+    blurb: "The science behind how dogs think, feel, and live — evidence-based deep dives.",
+    accent: "var(--c-accent-pond)",
+  },
+  "breed-profile": {
+    slug: "breed-profile",
+    label: "Breed Profiles",
+    blurb: "Complete breed guides — history, temperament, health, and life with each breed.",
+    accent: "var(--c-accent-sky)",
+  },
 };
 
 export const NAV_LINKS: ReadonlyArray<{ href: string; label: string }> = [

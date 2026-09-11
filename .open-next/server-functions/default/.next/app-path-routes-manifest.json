@@ -15,6 +15,6 @@
   "/page": "/",
   "/privacy-policy/page": "/privacy-policy",
   "/robots.txt/route": "/robots.txt",
-  "/sitemap.xml/route": "/sitemap.xml",
+  "/sitemap/[__metadata_id__]/route": "/sitemap/[__metadata_id__]",
   "/terms-of-service/page": "/terms-of-service"
 }

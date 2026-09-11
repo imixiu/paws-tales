@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getAllArticles } from "@/lib/db";
+import { getLatestArticles } from "@/lib/db";
 import ArticleCard from "@/components/ArticleCard";
 import { CATEGORIES, SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/site";
 import { HERO_IMAGE, ABOUT_IMAGE, coverFor } from "@/lib/images";
@@ -8,7 +8,7 @@ import { HERO_IMAGE, ABOUT_IMAGE, coverFor } from "@/lib/images";
 export const revalidate = 3600;
 
 export default async function Home() {
-  const articles = await getAllArticles();
+  const articles = await getLatestArticles(7);
   const featured = articles[0] ?? null;
   const latest = articles.slice(1, 7);
 

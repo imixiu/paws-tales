@@ -81,10 +81,51 @@ export async function getAllArticles(): Promise<Article[]> {
   ) as Promise<Article[]>;
 }
 
+export async function getLatestArticles(limit: number): Promise<Article[]> {
+  return q(
+    "SELECT id, site, type, short_title, language, published_time, modified_time, author, img, title, description, url FROM articles WHERE site = ? AND is_online IN ('1','Y') ORDER BY published_time DESC, id DESC LIMIT ?",
+    [SITE, limit]
+  ) as Promise<Article[]>;
+}
+
+export async function getTypeCounts(): Promise<{ type: string; count: number }[]> {
+  const rows = await q(
+    "SELECT type, COUNT(*) as count FROM articles WHERE site = ? AND is_online IN ('1','Y') AND type IS NOT NULL GROUP BY type",
+    [SITE]
+  );
+  return rows.map((r: any) => ({ type: r.type as string, count: Number(r.count) }));
+}
+
+export async function getAuthorCounts(): Promise<{ author: string; count: number }[]> {
+  const rows = await q(
+    "SELECT author, COUNT(*) as count FROM articles WHERE site = ? AND is_online IN ('1','Y') AND author IS NOT NULL GROUP BY author",
+    [SITE]
+  );
+  return rows.map((r: any) => ({ author: r.author as string, count: Number(r.count) }));
+}
+
 export async function getArticleUrlsForSitemap(): Promise<{ type: string; short_title: string; modified_time: string }[]> {
   return q(
     "SELECT type, short_title, modified_time FROM articles WHERE site = ? AND is_online IN ('1','Y') ORDER BY id",
     [SITE]
+  ) as Promise<{ type: string; short_title: string; modified_time: string }[]>;
+}
+
+export async function getSitemapArticleCount(): Promise<number> {
+  const rows = await q(
+    "SELECT COUNT(*) as total FROM articles WHERE site = ? AND is_online IN ('1','Y')",
+    [SITE]
+  );
+  return Number((rows[0] as any)?.total ?? 0);
+}
+
+export async function getArticleUrlsForSitemapPaged(
+  limit: number,
+  offset: number
+): Promise<{ type: string; short_title: string; modified_time: string }[]> {
+  return q(
+    "SELECT type, short_title, modified_time FROM articles WHERE site = ? AND is_online IN ('1','Y') ORDER BY id LIMIT ? OFFSET ?",
+    [SITE, limit, offset]
   ) as Promise<{ type: string; short_title: string; modified_time: string }[]>;
 }
 

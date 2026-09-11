@@ -4,11 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && node scripts/gen-sitemap-index.mjs && npx @opennextjs/cloudflare build && node scripts/postbuild-cache.mjs",
     "start": "next start",
     "lint": "eslint",
     "init-db": "node --experimental-strip-types --env-file=.env.local lib/init-db.ts",
-    "build:cf": "npx @opennextjs/cloudflare build"
+    "build:cf": "next build && npx -y @opennextjs/cloudflare build && node scripts/postbuild-cache.mjs",
+    "cf:build": "npx @opennextjs/cloudflare build && node postbuild-cache.mjs",
+    "cf:deploy": "npx wrangler deploy"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.100.1",

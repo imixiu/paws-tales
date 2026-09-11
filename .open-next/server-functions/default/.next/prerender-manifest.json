@@ -255,11 +255,11 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/sitemap.xml": {
+    "/sitemap/0.xml": {
       "initialHeaders": {
         "cache-control": "public, max-age=0, must-revalidate",
         "content-type": "application/xml",
-        "x-next-cache-tags": "_N_T_/layout,_N_T_/sitemap.xml/layout,_N_T_/sitemap.xml/route,_N_T_/sitemap.xml"
+        "x-next-cache-tags": "_N_T_/layout,_N_T_/sitemap/layout,_N_T_/sitemap/[__metadata_id__]/layout,_N_T_/sitemap/[__metadata_id__]/route,_N_T_/sitemap/0.xml"
       },
       "experimentalBypassFor": [
         {
@@ -273,7 +273,210 @@
         }
       ],
       "initialRevalidateSeconds": false,
-      "srcRoute": "/sitemap.xml",
+      "srcRoute": "/sitemap/[__metadata_id__]",
+      "dataRoute": null,
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/sitemap/1.xml": {
+      "initialHeaders": {
+        "cache-control": "public, max-age=0, must-revalidate",
+        "content-type": "application/xml",
+        "x-next-cache-tags": "_N_T_/layout,_N_T_/sitemap/layout,_N_T_/sitemap/[__metadata_id__]/layout,_N_T_/sitemap/[__metadata_id__]/route,_N_T_/sitemap/1.xml"
+      },
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/sitemap/[__metadata_id__]",
+      "dataRoute": null,
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/sitemap/2.xml": {
+      "initialHeaders": {
+        "cache-control": "public, max-age=0, must-revalidate",
+        "content-type": "application/xml",
+        "x-next-cache-tags": "_N_T_/layout,_N_T_/sitemap/layout,_N_T_/sitemap/[__metadata_id__]/layout,_N_T_/sitemap/[__metadata_id__]/route,_N_T_/sitemap/2.xml"
+      },
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/sitemap/[__metadata_id__]",
+      "dataRoute": null,
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/sitemap/3.xml": {
+      "initialHeaders": {
+        "cache-control": "public, max-age=0, must-revalidate",
+        "content-type": "application/xml",
+        "x-next-cache-tags": "_N_T_/layout,_N_T_/sitemap/layout,_N_T_/sitemap/[__metadata_id__]/layout,_N_T_/sitemap/[__metadata_id__]/route,_N_T_/sitemap/3.xml"
+      },
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/sitemap/[__metadata_id__]",
+      "dataRoute": null,
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/sitemap/4.xml": {
+      "initialHeaders": {
+        "cache-control": "public, max-age=0, must-revalidate",
+        "content-type": "application/xml",
+        "x-next-cache-tags": "_N_T_/layout,_N_T_/sitemap/layout,_N_T_/sitemap/[__metadata_id__]/layout,_N_T_/sitemap/[__metadata_id__]/route,_N_T_/sitemap/4.xml"
+      },
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/sitemap/[__metadata_id__]",
+      "dataRoute": null,
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/sitemap/5.xml": {
+      "initialHeaders": {
+        "cache-control": "public, max-age=0, must-revalidate",
+        "content-type": "application/xml",
+        "x-next-cache-tags": "_N_T_/layout,_N_T_/sitemap/layout,_N_T_/sitemap/[__metadata_id__]/layout,_N_T_/sitemap/[__metadata_id__]/route,_N_T_/sitemap/5.xml"
+      },
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/sitemap/[__metadata_id__]",
+      "dataRoute": null,
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/sitemap/6.xml": {
+      "initialHeaders": {
+        "cache-control": "public, max-age=0, must-revalidate",
+        "content-type": "application/xml",
+        "x-next-cache-tags": "_N_T_/layout,_N_T_/sitemap/layout,_N_T_/sitemap/[__metadata_id__]/layout,_N_T_/sitemap/[__metadata_id__]/route,_N_T_/sitemap/6.xml"
+      },
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/sitemap/[__metadata_id__]",
+      "dataRoute": null,
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/sitemap/7.xml": {
+      "initialHeaders": {
+        "cache-control": "public, max-age=0, must-revalidate",
+        "content-type": "application/xml",
+        "x-next-cache-tags": "_N_T_/layout,_N_T_/sitemap/layout,_N_T_/sitemap/[__metadata_id__]/layout,_N_T_/sitemap/[__metadata_id__]/route,_N_T_/sitemap/7.xml"
+      },
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/sitemap/[__metadata_id__]",
       "dataRoute": null,
       "allowHeader": [
         "host",
@@ -366,6 +569,34 @@
         "x-next-revalidate-tag-token"
       ]
     },
+    "/sitemap/[__metadata_id__]": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "routeRegex": "^/sitemap/([^/]+?)(?:/)?$",
+      "dataRoute": null,
+      "fallback": null,
+      "fallbackRootParams": [],
+      "fallbackRouteParams": [],
+      "dataRouteRegex": null,
+      "prefetchDataRoute": null,
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
     "/[type]/[slug]": {
       "experimentalBypassFor": [
         {
@@ -397,8 +628,8 @@
   },
   "notFoundRoutes": [],
   "preview": {
-    "previewModeId": "30d100fa1ab969b05ec4621c6f2c092e",
-    "previewModeSigningKey": "e06cd731b8e07dd43c1631c0061bc98e0ae918cd4d7815abd9f5694939859c12",
-    "previewModeEncryptionKey": "01545715970e3b05e543dba053c92509ff1bd3ab1d366e5fb32f14b7a391c2a2"
+    "previewModeId": "2d12dec473a737f5ac0cc9687dcdf000",
+    "previewModeSigningKey": "d209386fd75881fde441f91c064d5620a2f581751532d3123152f7fb735ceade",
+    "previewModeEncryptionKey": "0401cc0666f7bc07130bc551232610cc8b14ffcd76010fcda844384f58d37930"
   }
 }
