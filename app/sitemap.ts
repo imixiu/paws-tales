@@ -2,9 +2,10 @@ import type { MetadataRoute } from "next";
 import { CATEGORIES, SITE_URL } from "@/lib/site";
 import { getSitemapArticleCount, getArticleUrlsForSitemapPaged } from "@/lib/db";
 
-// Sitemap is generated per-request from the DB (new articles appear without redeploy)
-// and sharded at 5000 URLs per file (well under the 50,000 per-file limit).
-export const dynamic = "force-dynamic";
+// Sharded at 5000 URLs per file (well under the 50,000 per-file limit).
+// NOTE: no force-dynamic here — with generateSitemaps, Next 16 only registers
+// the /sitemap.xml INDEX route when built statically (force-dynamic => 404 index).
+// Sitemap refreshes on every build/deploy (article imports always deploy).
 
 const CHUNK = 5000;
 
