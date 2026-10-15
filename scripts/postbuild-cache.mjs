@@ -1,16 +1,38 @@
 /**
  * Postbuild script: inject CF Cache API into OpenNext worker.js
- * Caches GET 200 responses for content pages (1 year).
+ * Caches GET 200 responses for content pages (10 years).
  * Skips sitemap, _next, api, and non-200 responses.
+ *
+ * Usage:
+ *   cp this-file scripts/postbuild-cache.mjs
+ *   npx @opennextjs/cloudflare build
+ *   node scripts/postbuild-cache.mjs
+ *   npx wrangler deploy
  */
 import { readFileSync, writeFileSync } from "fs";
 
 const WORKER_PATH = ".open-next/worker.js";
-const worker = readFileSync(WORKER_PATH, "utf-8");
+let worker = readFileSync(WORKER_PATH, "utf-8");
 
-// 1. Cache helpers
+// Guard: skip if cache code already injected (prevent duplicate injection)
+if (worker.includes("// --- CF Cache API")) {
+    console.log("✓ CF Cache API already injected, skipping");
+    process.exit(0);
+}
+
+// 0. Read BUILD_ID for cache versioning (invalidates old cache on each deploy)
+const buildId = readFileSync(".open-next/assets/BUILD_ID", "utf-8").trim();
+const cacheVersion = buildId.substring(0, 8);
+
+// 1. Cache helpers (cache key includes BUILD_ID to auto-invalidate on redeploy)
 const cacheHelpers = `
-            // --- CF Cache API ---
+            // --- CF Cache API (v: ${cacheVersion}) ---
+            const _CV = "${cacheVersion}";
+            function _cacheKey(url) {
+                const u = new URL(url);
+                u.searchParams.set("_cv", _CV);
+                return new Request(u.toString(), { method: "GET", headers: {} });
+            }
             function shouldCache(url) {
                 const p = new URL(url).pathname;
                 if (p.startsWith("/sitemap/") || p.startsWith("/_next/") || p.startsWith("/api/")) return false;
@@ -19,8 +41,8 @@ const cacheHelpers = `
             }
             async function cacheGet(url) {
                 try {
-const cacheUrl = new URL(url); cacheUrl.searchParams.set("_cv", "2"); const key = new Request(cacheUrl.toString(), { method: "GET", headers: {} });
-                const hit = await caches.default.match(key);
+                    const key = _cacheKey(url);
+                    const hit = await caches.default.match(key);
                     if (hit) {
                         const r = new Response(hit.body, hit);
                         r.headers.set("x-cache", "HIT");
@@ -36,7 +58,7 @@ const cacheUrl = new URL(url); cacheUrl.searchParams.set("_cv", "2"); const key 
                 }
                 try {
                     const body = await resp.arrayBuffer();
-                    const cacheUrl2 = new URL(url); cacheUrl2.searchParams.set("_cv", "2"); const key = new Request(cacheUrl2.toString(), { method: "GET", headers: {} });
+                    const key = _cacheKey(url);
                     const h = new Headers(resp.headers);
                     h.delete("vary");
                     h.set("cache-control", "public, max-age=315360000, s-maxage=315360000");
